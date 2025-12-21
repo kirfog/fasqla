@@ -1,22 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
-from src.app.orm import notes_crud, notes_schemas, users_crud, users_schemas
+from src.app.orm import notes_crud, notes_schemas
 
 router = APIRouter()
-
-
-@router.post("/users/add", response_model=users_schemas.UserSchema)
-async def insert_user(user: users_schemas.UserSchemaIn):
-    result = await users_crud.add_full_user(user.model_dump())
-    user = users_schemas.UserSchema.model_validate(result)
-    return user
-
-
-@router.get("/users/get", response_model=list[users_schemas.UserSchema])
-async def get_users():
-    return await users_crud.get_all_users()
-
-
-# ---------------------------------------------------------------------
 
 
 @router.get("/", response_model=list[notes_schemas.NoteDB])

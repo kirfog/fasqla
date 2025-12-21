@@ -1,18 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from src.app.sql_enums import GenderEnum, ProfessionEnum
-
-
-class NoteSchema(BaseModel):
-    title: str = Field(..., min_length=3, max_length=50)
-    description: str = Field(..., min_length=3, max_length=50)
-
-    model_config = ConfigDict(from_attributes=True)
-
-
-class NoteDB(NoteSchema):
-    id: int
-
-    model_config = ConfigDict(from_attributes=True)
+from datetime import datetime
 
 
 class ProfileSchema(BaseModel):
@@ -48,3 +36,16 @@ class UserSchemaIn(BaseModel):
     contacts: dict | None
 
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
+
+
+class UserSearchSchema(BaseModel):
+    username: str | None = None
+    email: str | None = None
+    created_at_from: datetime | None = None
+    created_at_to: datetime | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    age: int | None = None
+    gender: GenderEnum | None = None
+    profession: ProfessionEnum | None = None
+    interests: str | None = None
