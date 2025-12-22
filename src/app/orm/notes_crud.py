@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.app.database import connection
@@ -13,23 +11,18 @@ async def create_note(*, session: AsyncSession, note_in: NoteSchema) -> NoteDB:
     result = await session.execute(query)
     await session.commit()
     note = result.scalar_one()
-    # return NoteDB.model_validate({
-    #     "id": note.id,
-    #     "title": note.title,
-    #     "description": note.description,
-    # })
-    return NoteDB.model_validate(note)  # with model_config = {"from_attributes": True}
+    return NoteDB.model_validate(note)
 
 
 @connection
-async def select_notes(session: AsyncSession) -> List[NoteDB]:
+async def select_notes(session: AsyncSession) -> list[NoteDB]:
     result = await session.execute(select(Note))
     notes = result.scalars().all()
     return [NoteDB.model_validate(note) for note in notes]
 
 
 @connection
-async def select_note_by_id(*, session: AsyncSession, note_id: int) -> Optional[NoteDB]:
+async def select_note_by_id(*, session: AsyncSession, note_id: int) -> NoteDB | None:
     result = await session.execute(select(Note).where(Note.id == note_id))
     note = result.scalar_one_or_none()
     return NoteDB.model_validate(note) if note else None
@@ -38,7 +31,7 @@ async def select_note_by_id(*, session: AsyncSession, note_id: int) -> Optional[
 @connection
 async def update_note(
     *, session: AsyncSession, note_id: int, note_in: NoteSchema
-) -> Optional[NoteDB]:
+) -> NoteDB | None:
     query = (
         update(Note)
         .where(Note.id == note_id)
@@ -52,8 +45,9 @@ async def update_note(
 
 
 @connection
-async def delete_note(*, session: AsyncSession, note_id: int) -> bool:
+async def delete_note(*, session: AsyncSession, note_id: int) -> NoteDB:
     query = delete(Note).where(Note.id == note_id)
     result = await session.execute(query)
     await session.commit()
-    return result.rowcount > 0
+    note = result.scalar_one()
+    return NoteDB.model_validate(note)

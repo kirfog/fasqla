@@ -1,13 +1,12 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.inspection import inspect
+from sqlalchemy.orm import selectinload
 from src.app.models import Profile, User
 from src.app.orm.base import BaseORM
 
-from sqlalchemy import select
-from sqlalchemy.orm import selectinload
-from sqlalchemy.inspection import inspect
 
-
-class UserORM(BaseORM):
+class UserORM(BaseORM[User]):
     model = User
 
     @classmethod
@@ -42,11 +41,7 @@ class UserORM(BaseORM):
 
     @classmethod
     async def find_many(cls, session: AsyncSession, **filters) -> list[User]:
-        query = (
-            select(User)
-            .filter_by(**filters)
-            .options(selectinload(User.profile))
-        )
+        query = select(User).filter_by(**filters).options(selectinload(User.profile))
         result = await session.execute(query)
         return list(result.scalars().all())
 

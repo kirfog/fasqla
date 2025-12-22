@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.app.database import connection
 from src.app.orm.users_orm import UserORM
-
 from src.app.orm.users_schemas import UserSchema
 
 

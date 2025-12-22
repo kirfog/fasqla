@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
 from src.app.sql_enums import GenderEnum, ProfessionEnum
-from datetime import datetime
 
 
 class ProfileSchema(BaseModel):

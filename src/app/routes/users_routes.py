@@ -30,11 +30,11 @@ async def get_users():
     return await users_crud.get_all_users()
 
 
-@router.get("/get/{note_id}", response_model=users_schemas.UserSchema)
+@router.get("/get/{id}", response_model=users_schemas.UserSchema)
 async def get_user_by_id(id: int):
     user = await users_crud.get_user_by_id(id=id)
     if not user:
-        raise HTTPException(status_code=404, detail="Note not found")
+        raise HTTPException(status_code=404, detail="User not found")
     return user
 
 
