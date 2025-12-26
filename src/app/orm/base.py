@@ -1,6 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.app.database import Base
 
 
@@ -19,9 +20,7 @@ class BaseORM[T: Base]:
         return new_instance
 
     @classmethod
-    async def add_many(
-        cls, session: AsyncSession, instances: list[dict]
-    ) -> list[T]:
+    async def add_many(cls, session: AsyncSession, instances: list[dict]) -> list[T]:
         new_instances = [cls.model(**values) for values in instances]
         session.add_all(new_instances)
         try:

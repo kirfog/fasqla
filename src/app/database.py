@@ -2,10 +2,15 @@ from datetime import datetime
 from typing import Annotated, List
 
 from sqlalchemy import ARRAY, Integer, String, Text, func
-from sqlalchemy.ext.asyncio import (AsyncAttrs, async_sessionmaker,
-                                    create_async_engine)
-from sqlalchemy.orm import (DeclarativeBase, Mapped, class_mapper,
-                            declared_attr, mapped_column)
+from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Mapped,
+    class_mapper,
+    declared_attr,
+    mapped_column,
+)
+
 from src.app.config import settings
 
 DATABASE_URL = settings.get_db_url()

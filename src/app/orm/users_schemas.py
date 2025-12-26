@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
+
 from src.app.sql_enums import GenderEnum, ProfessionEnum
 
 
@@ -25,16 +26,16 @@ class UserSchema(BaseModel):
 
 
 class UserSchemaIn(BaseModel):
-    username: str
-    email: str
-    password: str
-    first_name: str
-    last_name: str | None
-    age: int | None
-    gender: GenderEnum
-    profession: ProfessionEnum
-    interests: list[str] | None
-    contacts: dict | None
+    username: str = Field(..., description="User's username")
+    email: str = Field(..., description="User's email address")
+    password: str = Field(..., description="User's password")
+    first_name: str = Field(..., description="User's first name")
+    last_name: str | None = Field(None, description="User's last name")
+    age: int | None = Field(None, description="User's age")
+    gender: GenderEnum = Field(..., description="User's gender")
+    profession: ProfessionEnum | None = Field(None, description="User's profession")
+    interests: list[str] | None = Field(None, description="User's interests")
+    contacts: dict[str, str] | None = Field(None, description="User's contacts")
 
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
 

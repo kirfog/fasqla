@@ -3,6 +3,8 @@ import time
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+
+from src.app.chat import chat
 from src.app.routes import notes_routes, users_routes
 
 
@@ -41,3 +43,4 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(notes_routes.router, prefix="/notes", tags=["notes"])
 app.include_router(users_routes.router, prefix="/users", tags=["users"])
+app.include_router(chat.router, prefix="/chat", tags=["chat"])

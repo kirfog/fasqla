@@ -2,6 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.inspection import inspect
 from sqlalchemy.orm import selectinload
+
 from src.app.models import Profile, User
 from src.app.orm.base import BaseORM
 

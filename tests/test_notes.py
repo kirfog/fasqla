@@ -1,8 +1,7 @@
 import pytest
 
-from src.app.orm.notes_schemas import NoteDB
 from src.app.orm import notes_crud
-
+from src.app.orm.notes_schemas import NoteDB
 
 # def test_create_note_db(test_app, async_db_session):
 
@@ -39,16 +38,10 @@ def test_create_note(test_app, monkeypatch):
 
 
 def test_create_note_invalid_json(test_app):
-    response = test_app.post(
-        "/notes/",
-        json={"title": "something"}
-    )
+    response = test_app.post("/notes/", json={"title": "something"})
     assert response.status_code == 422
 
-    response = test_app.post(
-        "/notes/",
-        json={"title": "1", "description": "2"}
-    )
+    response = test_app.post("/notes/", json={"title": "1", "description": "2"})
     assert response.status_code == 422
 
 
@@ -88,7 +81,10 @@ def test_read_note_incorrect_id(test_app, monkeypatch):
 
 @pytest.mark.parametrize("count", [0, 1, 10])
 def test_read_all_notes_parametrized(test_app, monkeypatch, count):
-    notes = [NoteDB(id=i, title=f"Title_{i}", description=f"Description_{i}") for i in range(1, count+1)]
+    notes = [
+        NoteDB(id=i, title=f"Title_{i}", description=f"Description_{i}")
+        for i in range(1, count + 1)
+    ]
 
     async def mock_get_all(*, session=None):
         return notes

@@ -1,14 +1,14 @@
-from fastapi import APIRouter, HTTPException
-from src.app.orm import users_crud, users_schemas
 from typing import Annotated
-from fastapi import Depends
 
+from fastapi import APIRouter, HTTPException, Query
+
+from src.app.orm import users_crud, users_schemas
 
 router = APIRouter()
 
 
 @router.post("/post", response_model=users_schemas.UserSchema)
-async def insert_user(user: users_schemas.UserSchemaIn):
+async def insert_user(user: Annotated[users_schemas.UserSchemaIn, Query()]):
     try:
         user = await users_crud.add_full_user(user.model_dump())
     except Exception as e:
@@ -40,6 +40,6 @@ async def get_user_by_id(id: int):
 
 @router.get("/get_by", response_model=list[users_schemas.UserSchema])
 async def search_users_endpoint(
-    filters: Annotated[users_schemas.UserSearchSchema, Depends()]
+    filters: Annotated[users_schemas.UserSearchSchema, Query()],
 ):
     return await users_crud.search_users(filters.model_dump(exclude_none=True))

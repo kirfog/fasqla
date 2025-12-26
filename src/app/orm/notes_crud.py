@@ -1,5 +1,6 @@
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.app.database import connection
 from src.app.models import Note
 from src.app.orm.notes_schemas import NoteDB, NoteSchema

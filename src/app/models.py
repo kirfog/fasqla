@@ -1,8 +1,8 @@
 from sqlalchemy import JSON, ForeignKey, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from src.app.database import Base, array_or_none_an, content_an, uniq_str_an
-from src.app.sql_enums import (GenderEnum, ProfessionEnum, RatingEnum,
-                               StatusPost)
+from src.app.sql_enums import GenderEnum, ProfessionEnum, RatingEnum, StatusPost
 
 
 class Note(Base):

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
+
 from src.app.orm import notes_crud, notes_schemas
 
 router = APIRouter()

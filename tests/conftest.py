@@ -1,11 +1,13 @@
 import pytest
+
 # import asyncio
 from fastapi.testclient import TestClient
-# from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker, AsyncConnection
-# from sqlalchemy.orm import declarative_base
 
 # from src.app.database import Base
 from src.app.main import app
+
+# from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker, AsyncConnection
+# from sqlalchemy.orm import declarative_base
 
 
 @pytest.fixture(scope="module")
