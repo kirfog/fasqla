@@ -5,6 +5,13 @@ from src.app.orm import notes_crud, notes_schemas
 router = APIRouter()
 
 
+@router.post(
+    "/", response_model=notes_schemas.NoteDB, status_code=status.HTTP_201_CREATED
+)
+async def post_note(note: notes_schemas.NoteSchema):
+    return await notes_crud.create_note(note_in=note)
+
+
 @router.get("/", response_model=list[notes_schemas.NoteDB])
 async def read_all_notes():
     return await notes_crud.select_notes()
@@ -16,13 +23,6 @@ async def read_note(note_id: int):
     if not note:
         raise HTTPException(status_code=404, detail="Note not found")
     return note
-
-
-@router.post(
-    "/", response_model=notes_schemas.NoteDB, status_code=status.HTTP_201_CREATED
-)
-async def create_note(note: notes_schemas.NoteSchema):
-    return await notes_crud.create_note(note_in=note)
 
 
 @router.put("/{note_id}", response_model=notes_schemas.NoteDB)

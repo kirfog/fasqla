@@ -1,0 +1,20 @@
+FROM python:3.12-slim AS builder
+RUN pip install poetry
+
+WORKDIR /opt
+COPY pyproject.toml poetry.lock ./
+RUN poetry config virtualenvs.in-project true && poetry install --only=main --no-root
+
+
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
+
+WORKDIR /opt
+COPY --from=builder /opt/.venv /opt/.venv
+ENV PATH="/opt/.venv/bin:$PATH"
+COPY /alembic.ini /opt/alembic.ini
+COPY /migration /opt/migration
+# local for uvicorn --reload
+# COPY ./src/app/ ./src/app/
